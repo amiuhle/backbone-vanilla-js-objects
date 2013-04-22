@@ -1,0 +1,22 @@
+{
+  "name": "backbone-vanilla-js-objects",
+  "version": "0.0.0",
+  "description": "Display vanilla Javascript Objects with Backbone.js\"",
+  "main": "backbone-vanilla-js-objects.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amiuhle/backbone-vanilla-js-objects.git"
+  },
+  "keywords": [
+    "backbone",
+    "javascript",
+    "object",
+    "view"
+  ],
+  "author": "Timo Uhlmann",
+  "license": "BSD",
+  "gitHead": "fac9c5e5a10ed08cdfebdb02191175e35f4fa1e0"
+}
