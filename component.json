@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "main": ["backbone-vanilla-js-objects.js", "backbone-vanilla-js-objects.css"],
   "dependencies": {
+    "jquery": "~2.0.0",
+    "underscore": "~1.4.4",
     "backbone": "~1.0.0"
   },
   "ignore": [

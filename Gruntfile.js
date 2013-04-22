@@ -9,9 +9,11 @@ module.exports = function (grunt) {
         ],
         options: {
           vendor: [
-            'test/shims.js'
+            'components/jquery/jquery.js',
+            'components/underscore/underscore.js',
+            'components/backbone/backbone.js'
           ],
-          specs: ['{spec/backbone-vanilla-js-objects.js']
+          specs: ['test/backbone-vanilla-js-objects.js']
         }
       }
     }
