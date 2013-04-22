@@ -1,0 +1,10 @@
+{
+  "name": "backbone-vanilla-js-objects",
+  "version": "0.0.0",
+  "main": "backbone-vanilla-js-objects.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
