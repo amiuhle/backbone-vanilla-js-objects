@@ -2,6 +2,9 @@
   "name": "backbone-vanilla-js-objects",
   "version": "0.0.0",
   "main": ["backbone-vanilla-js-objects.js", "backbone-vanilla-js-objects.css"],
+  "dependencies": {
+    "backbone": "~1.0.0"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
