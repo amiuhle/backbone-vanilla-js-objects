@@ -15,20 +15,37 @@
   
   Backbone.VanillaJsObjects.Property = Backbone.Model.extend({
 
+    // getters
+    property: function() {
+      return this.get('property');
+    },
+
+    value: function() {
+      return '' + this.get('value');
+    },
+
+    type: function() {
+      var value = this.get('value');
+      if(value === null) {
+        return 'null';
+      } else {
+        return typeof value;
+      }
+    }
   });
 
   Backbone.VanillaJsObjects.View = Backbone.View.extend({
-    constructor: function(inspectable, options) {
-      this.inspectable = inspectable;
-      this.options = options;
-      if(typeof inspectable === 'object' && inspectable !== null) {
-        if(isArray(inspectable)) {
-          this.collection = new Backbone.VanillaJsObjects.Array(inspectable);
+    initialize: function() {
+      this.property = this.options.property;
+      var value = this.value = this.options.value;
+      if(typeof value === 'object' && value !== null) {
+        if(isArray(value)) {
+          this.collection = new Backbone.VanillaJsObjects.Array(value);
         } else {
-          this.collection = new Backbone.VanillaJsObjects.Object(inspectable);
+          this.collection = new Backbone.VanillaJsObjects.Object(value);
         }
       } else {
-        this.model = new Backbone.VanillaJsObjects.Property(inspectable);
+        this.model = new Backbone.VanillaJsObjects.Property(value);
       }
     }
   });
