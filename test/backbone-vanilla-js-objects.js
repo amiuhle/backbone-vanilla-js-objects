@@ -7,6 +7,17 @@ describe('Backbone.VanillaJsObjects', function() {
     simples = [1, 'foo', true, false, null, undefined];
   });
 
+  it("it detects the correct object type", function () {
+    expect(bvo.getType(1)).toBe('number');
+    expect(bvo.getType('bar')).toBe('string');
+    expect(bvo.getType(true)).toBe('boolean');
+    expect(bvo.getType(false)).toBe('boolean');
+    expect(bvo.getType(null)).toBe('null');
+    expect(bvo.getType(undefined)).toBe('undefined');
+    expect(bvo.getType({})).toBe('object');
+    expect(bvo.getType([])).toBe('array');
+  });
+
   describe('View', function() {
     var View = null;
     var view = null;
@@ -115,6 +126,22 @@ describe('Backbone.VanillaJsObjects', function() {
         });
         expect(model.value()).toBe('undefined');
         expect(model.type()).toBe('undefined');
+      });
+
+      it('Object', function() {
+        var model = new Property({
+          value: {}
+        });
+        expect(model.value()).toBe('Object');
+        expect(model.type()).toBe('object');
+      });
+
+      it('Array', function() {
+        var model = new Property({
+          value: []
+        });
+        expect(model.value()).toBe('Array');
+        expect(model.type()).toBe('array');
       });
 
     });

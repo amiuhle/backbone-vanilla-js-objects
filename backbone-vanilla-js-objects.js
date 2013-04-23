@@ -1,8 +1,21 @@
 (function () {
-  Backbone.VanillaJsObjects = {};
 
   var isArray = function(obj) {
     return Object.prototype.toString.apply(obj) === '[object Array]'
+  };
+
+  var getType = function(value) {
+    if(value === null) {
+      return 'null';
+    } else if(isArray(value)) {
+      return 'array';
+    } else {
+      return typeof value
+    }
+  };
+
+  Backbone.VanillaJsObjects = {
+    getType: getType
   };
 
   Backbone.VanillaJsObjects.Object = Backbone.Collection.extend({
@@ -21,16 +34,18 @@
     },
 
     value: function() {
-      return '' + this.get('value');
+      var value = this.get('value');
+      if(getType(value) === 'object') {
+        return 'Object';
+      } else if(getType(value) === 'array') {
+        return 'Array';
+      } else {
+        return '' + value;
+      }
     },
 
     type: function() {
-      var value = this.get('value');
-      if(value === null) {
-        return 'null';
-      } else {
-        return typeof value;
-      }
+      return getType(this.get('value'));
     }
   });
 
@@ -38,12 +53,10 @@
     initialize: function() {
       this.property = this.options.property;
       var value = this.value = this.options.value;
-      if(typeof value === 'object' && value !== null) {
-        if(isArray(value)) {
-          this.collection = new Backbone.VanillaJsObjects.Array(value);
-        } else {
-          this.collection = new Backbone.VanillaJsObjects.Object(value);
-        }
+      if(getType(value) === 'object') {
+        this.collection = new Backbone.VanillaJsObjects.Object(value);
+      } else if(getType(value) === 'array') {
+        this.collection = new Backbone.VanillaJsObjects.Array(value);
       } else {
         this.model = new Backbone.VanillaJsObjects.Property(value);
       }
