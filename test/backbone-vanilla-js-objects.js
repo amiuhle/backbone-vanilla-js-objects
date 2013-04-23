@@ -21,7 +21,7 @@ describe('Backbone.VanillaJsObjects', function() {
 
     it('can be given an Object', function() {
       view = new View({
-        value: new Object()
+        value: {}
       });
       expect(view.collection).toBeDefined();
       expect(view.collection).toEqual(jasmine.any(bvo.Object));
@@ -29,7 +29,7 @@ describe('Backbone.VanillaJsObjects', function() {
 
     it('can be given an Array', function() {
       view = new View({
-        value: new Array()
+        value: []
       });
       expect(view.collection).toBeDefined();
       expect(view.collection).toEqual(jasmine.any(bvo.Array));
@@ -73,48 +73,48 @@ describe('Backbone.VanillaJsObjects', function() {
         var model = new Property({
           value: 1
         });
-        expect(model.value()).toEqual('1');
-        expect(model.type()).toEqual('number');
+        expect(model.value()).toBe('1');
+        expect(model.type()).toBe('number');
       });
 
       it('string', function() {
         var model = new Property({
           value: 'bar'
         });
-        expect(model.value()).toEqual('bar');
-        expect(model.type()).toEqual('string');
+        expect(model.value()).toBe('bar');
+        expect(model.type()).toBe('string');
       });
 
       it('true', function() {
         var model = new Property({
           value: true
         });
-        expect(model.value()).toEqual('true');
-        expect(model.type()).toEqual('boolean');
+        expect(model.value()).toBe('true');
+        expect(model.type()).toBe('boolean');
       });
 
       it('false', function() {
         var model = new Property({
           value: false
         });
-        expect(model.value()).toEqual('false');
-        expect(model.type()).toEqual('boolean');
+        expect(model.value()).toBe('false');
+        expect(model.type()).toBe('boolean');
       });
 
       it('null', function() {
         var model = new Property({
           value: null
         });
-        expect(model.value()).toEqual('null');
-        expect(model.type()).toEqual('null');
+        expect(model.value()).toBe('null');
+        expect(model.type()).toBe('null');
       });
 
       it('undefined', function() {
         var model = new Property({
           value: undefined
         });
-        expect(model.value()).toEqual('undefined');
-        expect(model.type()).toEqual('undefined');
+        expect(model.value()).toBe('undefined');
+        expect(model.type()).toBe('undefined');
       });
 
     });
