@@ -7,7 +7,7 @@ describe('Backbone.VanillaJsObjects', function() {
     simples = [1, 'foo', true, false, null, undefined];
   });
 
-  it("it detects the correct object type", function () {
+  it('it detects the correct object type', function () {
     expect(bvo.getType(1)).toBe('number');
     expect(bvo.getType('bar')).toBe('string');
     expect(bvo.getType(true)).toBe('boolean');
@@ -30,20 +30,45 @@ describe('Backbone.VanillaJsObjects', function() {
       expect(View).toBeDefined();
     });
 
-    it('can be given an Object', function() {
-      view = new View({
-        inspect: {}
+    describe('Objects', function() {
+      beforeEach(function() {
+        view = new View({
+          inspect: {}
+        });
       });
-      expect(view.collection).toBeDefined();
-      expect(view.collection).toEqual(jasmine.any(bvo.Object));
+
+      it('can be given an Object', function() {
+        expect(view.collection).toBeDefined();
+        expect(view.collection).toEqual(jasmine.any(bvo.Object));
+      });
+
     });
 
-    it('can be given an Array', function() {
-      view = new View({
-        inspect: []
+    describe('Array', function() {
+      var array = [1, 'foo', true, false, null, undefined, {foo: 'bar'}, simples];
+      beforeEach(function() {
+        view = new View({
+          inspect: array
+        });
       });
-      expect(view.collection).toBeDefined();
-      expect(view.collection).toEqual(jasmine.any(bvo.Array));
+
+      it('can be given an Array', function() {
+        expect(view.collection).toBeDefined();
+        expect(view.collection).toEqual(jasmine.any(bvo.Array));
+      });
+
+      it("creates a model for each member", function() {
+        var collection = view.collection;
+        expect(collection.size()).toBe(8);
+        for(var i = 0; i < array.length; i++) {
+          var actual = collection.at(i);
+          var expected = array[i];
+          expect(actual).toEqual(jasmine.any(bvo.Property));
+          expect(actual.property()).not.toBeDefined();
+          expect(actual.get('value')).toBe(expected);
+        }
+      });
+
     });
 
     describe('can be given simple types', function() {

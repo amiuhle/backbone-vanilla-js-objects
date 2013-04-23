@@ -55,7 +55,11 @@
       if(getType(inspect) === 'object') {
         this.collection = new Backbone.VanillaJsObjects.Object(inspect);
       } else if(getType(inspect) === 'array') {
-        this.collection = new Backbone.VanillaJsObjects.Array(inspect);
+        var collection = this.collection = new Backbone.VanillaJsObjects.Array();
+        _.each(inspect, function(item) {
+          collection.add( new Backbone.VanillaJsObjects.Property({value: item}));
+        });
+        console.log('collection', this.collection);
       } else {
         this.model = new Backbone.VanillaJsObjects.Property(inspect);
       }
