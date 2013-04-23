@@ -32,7 +32,7 @@ describe('Backbone.VanillaJsObjects', function() {
 
     it('can be given an Object', function() {
       view = new View({
-        value: {}
+        inspect: {}
       });
       expect(view.collection).toBeDefined();
       expect(view.collection).toEqual(jasmine.any(bvo.Object));
@@ -40,7 +40,7 @@ describe('Backbone.VanillaJsObjects', function() {
 
     it('can be given an Array', function() {
       view = new View({
-        value: []
+        inspect: []
       });
       expect(view.collection).toBeDefined();
       expect(view.collection).toEqual(jasmine.any(bvo.Array));
@@ -50,7 +50,7 @@ describe('Backbone.VanillaJsObjects', function() {
       simples.forEach(function(simple) {
         it('(' + simple + ')', function() {
           view = new View({
-            value: simple
+            inspect: simple
           });
           expect(view.model).toBeDefined();
           expect(view.model).toEqual(jasmine.any(bvo.Property));

@@ -51,14 +51,13 @@
 
   Backbone.VanillaJsObjects.View = Backbone.View.extend({
     initialize: function() {
-      this.property = this.options.property;
-      var value = this.value = this.options.value;
-      if(getType(value) === 'object') {
-        this.collection = new Backbone.VanillaJsObjects.Object(value);
-      } else if(getType(value) === 'array') {
-        this.collection = new Backbone.VanillaJsObjects.Array(value);
+      var inspect = this.options.inspect;
+      if(getType(inspect) === 'object') {
+        this.collection = new Backbone.VanillaJsObjects.Object(inspect);
+      } else if(getType(inspect) === 'array') {
+        this.collection = new Backbone.VanillaJsObjects.Array(inspect);
       } else {
-        this.model = new Backbone.VanillaJsObjects.Property(value);
+        this.model = new Backbone.VanillaJsObjects.Property(inspect);
       }
     }
   });
