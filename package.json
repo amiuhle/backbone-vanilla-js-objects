@@ -21,6 +21,7 @@
   "gitHead": "fac9c5e5a10ed08cdfebdb02191175e35f4fa1e0",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jasmine": "~0.4.1"
+    "grunt-contrib-jasmine": "~0.4.1",
+    "grunt-contrib-watch": ""
   }
 }

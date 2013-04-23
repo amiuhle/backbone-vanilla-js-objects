@@ -1,6 +1,7 @@
 
 module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.initConfig({
     jasmine: {
       test: {
@@ -13,11 +14,21 @@ module.exports = function (grunt) {
             'components/underscore/underscore.js',
             'components/backbone/backbone.js'
           ],
-          specs: ['test/backbone-vanilla-js-objects.js']
+          specs: ['test/backbone-vanilla-js-objects.js'],
+          keepRunner: true
+        }
+      }
+    },
+    watch: {
+      test: {
+        files: ['*.js', ['test/*.js']],
+        tasks: ['jasmine:test'],
+        options: {
+          nospawn: true
         }
       }
     }
   });
 
-  grunt.registerTask('test', ["jasmine:test"]);
+  grunt.registerTask('test', ["jasmine:test", "watch:test"]);
 };
