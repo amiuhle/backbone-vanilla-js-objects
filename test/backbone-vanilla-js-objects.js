@@ -248,7 +248,7 @@ describe('Backbone.VanillaJsObjects', function() {
           spyOn(view, 'expand').andCallThrough();
           expect(view.expand).not.toHaveBeenCalled();
 
-          el.click();
+          view.el.click();
           expect(view.expand).toHaveBeenCalled();
 
 

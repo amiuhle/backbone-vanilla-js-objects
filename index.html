@@ -15,8 +15,15 @@
   <ul id="example-5"></ul>
   
   <script>
+    var simples = [1, 'foo', true, false, null, undefined],
+      object = {a: 1, b: 'foo', c: true, d: false, e: null, f: undefined, g: { foo: 'bar' }, h: simples},
+      array = [1, 'foo', true, false, null, undefined, {foo: 'bar'}, simples];
+
     $(function() {
-      console.log('ready');
+      var View = Backbone.VanillaJsObjects.View;
+      $('#example-1').html(
+        new View({ inspect: object}).render().el
+      );
     });
   </script>
 </body>
