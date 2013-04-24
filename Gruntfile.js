@@ -14,6 +14,9 @@ module.exports = function (grunt) {
             'components/underscore/underscore.js',
             'components/backbone/backbone.js'
           ],
+          helpers: [
+            'components/jasmine-jquery/lib/jasmine-jquery.js'
+          ],
           specs: ['test/backbone-vanilla-js-objects.js'],
           keepRunner: true
         }
