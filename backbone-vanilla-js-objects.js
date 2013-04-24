@@ -1,7 +1,8 @@
+//globals Backbone, _
 (function () {
 
   var isArray = function(obj) {
-    return Object.prototype.toString.apply(obj) === '[object Array]'
+    return Object.prototype.toString.apply(obj) === '[object Array]';
   };
 
   var getType = function(value) {
@@ -10,7 +11,7 @@
     } else if(isArray(value)) {
       return 'array';
     } else {
-      return typeof value
+      return typeof value;
     }
   };
 
@@ -18,14 +19,6 @@
     getType: getType
   };
 
-  Backbone.VanillaJsObjects.Object = Backbone.Collection.extend({
-
-  });
-
-  Backbone.VanillaJsObjects.Array = Backbone.Collection.extend({
-
-  });
-  
   Backbone.VanillaJsObjects.Property = Backbone.Model.extend({
 
     // getters
@@ -49,19 +42,31 @@
     }
   });
 
+  Backbone.VanillaJsObjects.Object = Backbone.Collection.extend({
+    model: Backbone.VanillaJsObjects.Property
+  });
+
+  Backbone.VanillaJsObjects.Array = Backbone.Collection.extend({
+    model: Backbone.VanillaJsObjects.Property
+  });
+
   Backbone.VanillaJsObjects.View = Backbone.View.extend({
     initialize: function() {
       var inspect = this.options.inspect;
       if(getType(inspect) === 'object') {
-        this.collection = new Backbone.VanillaJsObjects.Object(inspect);
+        this.collection = new Backbone.VanillaJsObjects.Object();
+        for(var property in inspect) {
+          this.collection.add({ property: property, value: inspect[property] });
+        }
       } else if(getType(inspect) === 'array') {
         var collection = this.collection = new Backbone.VanillaJsObjects.Array();
         _.each(inspect, function(item) {
-          collection.add( new Backbone.VanillaJsObjects.Property({value: item}));
+          collection.add({ value: item });
         });
-        console.log('collection', this.collection);
       } else {
-        this.model = new Backbone.VanillaJsObjects.Property(inspect);
+        this.model = new Backbone.VanillaJsObjects.Property({
+          value: inspect
+        });
       }
     }
   });
