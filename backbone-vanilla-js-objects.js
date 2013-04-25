@@ -53,6 +53,21 @@
   });
 
   Backbone.VanillaJsObjects.View = Backbone.View.extend({
+    tagName: 'li',
+    template: _.template([
+      '<% if(property()) { %>',
+        '<span class="property">',
+          '<%= property() %>',
+          '<span class="colon">: </span>',
+        '</span>',
+      '<% } %>',
+      '<span class="value"><%= value() %></span>'
+    ].join('')),
+
+    events: {
+      'click .expandable': 'expand'
+    },
+
     initialize: function() {
       if(this.options.hasOwnProperty('inspect')) {
         var inspect = this.options.inspect;
@@ -74,17 +89,6 @@
       }
     },
 
-    tagName: 'li',
-    template: _.template([
-      '<% if(property()) { %>',
-        '<span class="property">',
-          '<%= property() %>',
-          '<span class="colon">: </span>',
-        '</span>',
-      '<% } %>',
-      '<span class="value"><%= value() %></span>'
-    ].join('')),
-
     render: function() {
       if(this.collection) {
         var el = this.$el.empty();
@@ -96,15 +100,12 @@
       } else {
         this.$el.html(this.template(this));
         if(this.expandable()) {
+          // this.$el.on('click', this.expand);
           this.$el.addClass('expandable');
           this.$el.append('<ul style="display: none">');
         }
       }
       return this;
-    },
-
-    events: {
-      'click': 'expand'
     },
 
     //delegates
@@ -124,14 +125,13 @@
       if(this.collection) {
         return false;
       } else {
-        return this.property() && (this.type() === 'object' || this.type() === 'array')
+        return this.property() && (this.type() === 'object' || this.type() === 'array');
       }
     },
 
     expand: function() {
       console.log('expand', this, arguments);
     }
-
 
   });
 })();

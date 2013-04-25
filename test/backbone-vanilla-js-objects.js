@@ -1,4 +1,4 @@
-//globals describe, it, expect, beforeEach, Backbone, _, jasmine
+//globals describe, it, expect, beforeEach, Backbone, _, jasmine, spyOn
 describe('Backbone.VanillaJsObjects', function() {
   var bvo = null;
   var simples = [1, 'foo', true, false, null, undefined];
@@ -36,7 +36,7 @@ describe('Backbone.VanillaJsObjects', function() {
     });
 
     describe('Objects', function() {
-      
+
       beforeEach(function() {
         view = new View({
           inspect: object
@@ -65,7 +65,7 @@ describe('Backbone.VanillaJsObjects', function() {
     });
 
     describe('Array', function() {
-      
+
       beforeEach(function() {
         view = new View({
           inspect: array
@@ -107,13 +107,13 @@ describe('Backbone.VanillaJsObjects', function() {
 
     describe('Backbone', function() {
       it('can be given a Collection', function() {
-        collection = new Backbone.Collection;
+        var collection = new Backbone.Collection();
         view = new View({ collection: collection });
         expect(view.collection).toBe(collection);
       });
 
       it('can be given a Model', function() {
-        model = new Backbone.Model;
+        var model = new Backbone.Model();
         view = new View({ model: model });
         expect(view.model).toBe(model);
       });
@@ -123,7 +123,6 @@ describe('Backbone.VanillaJsObjects', function() {
       var View = null;
       var Property = null;
       var view = null;
-      var inspectable = null;
 
       beforeEach(function() {
         View = bvo.View;
@@ -132,7 +131,7 @@ describe('Backbone.VanillaJsObjects', function() {
 
       describe('Model', function() {
         var model = null;
-        
+
         beforeEach(function() {
           model = new Property({ property: 'foo', value: 'bar' });
         });
@@ -144,10 +143,10 @@ describe('Backbone.VanillaJsObjects', function() {
             value = el.find('.value');
 
           expect(el).toBe('li');
-          console.log(el.text());
           expect(el).toHaveText('foo: "bar"');
 
           expect(property).toHaveText(/foo/);
+          expect(value).toHaveText(/bar/);
 
         });
 
@@ -175,7 +174,7 @@ describe('Backbone.VanillaJsObjects', function() {
               };
             }
           });
-          view.render()
+          view.render();
           expect(bvo.View).toHaveBeenCalled();
           expect(bvo.View.callCount).toBe(8);
         });
@@ -221,7 +220,7 @@ describe('Backbone.VanillaJsObjects', function() {
           expect(view.expandable()).toBe(true);
           var el = view.render().$el;
           expect(el).toHaveClass('expandable');
-          expect(el).toContain('ul')
+          expect(el).toContain('ul');
           var ul = el.find('ul');
           expect(ul).toBeEmpty();
           expect(ul).toBeHidden();
@@ -230,26 +229,32 @@ describe('Backbone.VanillaJsObjects', function() {
             model: new bvo.Property({ property: 'foo', value: array })
           });
           expect(view.expandable()).toBe(true);
-          var el = view.render().$el;
+          el = view.render().$el;
           expect(el).toHaveClass('expandable');
-          expect(el).toContain('ul')
-          var ul = el.find('ul');
+          expect(el).toContain('ul');
+          ul = el.find('ul');
           expect(ul).toBeEmpty();
           expect(ul).toBeHidden();
 
         });
 
         it('expands', function() {
+          var eventSpy;
+          // View = bvo.View.extend({
+          //   initialize: function() {
+          //     eventSpy = spyOn(this, 'expand').andCallThrough();
+          //     bvo.View.prototype.initialize.apply(this, arguments);
+          //   }
+          // });
           view = new View({
             model: new bvo.Property({ property: 'foo', value: object })
           }).render();
-          var el = view.$el;
 
-          spyOn(view, 'expand').andCallThrough();
-          expect(view.expand).not.toHaveBeenCalled();
+          eventSpy = spyOn(view, 'expand').andCallThrough();
+          expect(eventSpy).not.toHaveBeenCalled();
 
-          view.el.click();
-          expect(view.expand).toHaveBeenCalled();
+          view.$el.click();
+          expect(eventSpy).toHaveBeenCalled();
 
 
         });
