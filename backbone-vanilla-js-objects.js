@@ -1,5 +1,5 @@
 //globals Backbone, _
-(function () {
+Backbone.VanillaJsObjects = (function (undefined) {
 
   var isArray = function(obj) {
     return Object.prototype.toString.apply(obj) === '[object Array]';
@@ -15,11 +15,11 @@
     }
   };
 
-  Backbone.VanillaJsObjects = {
-    getType: getType
-  };
+  // var inspect = function(object) {
 
-  Backbone.VanillaJsObjects.Property = Backbone.Model.extend({
+  // };
+
+  var Property = Backbone.Model.extend({
 
     // getters
     property: function() {
@@ -42,15 +42,11 @@
     }
   });
 
-  Backbone.VanillaJsObjects.Object = Backbone.Collection.extend({
-    model: Backbone.VanillaJsObjects.Property
+  var Collection = Backbone.Collection.extend({
+    model: Property
   });
 
-  Backbone.VanillaJsObjects.Array = Backbone.Collection.extend({
-    model: Backbone.VanillaJsObjects.Property
-  });
-
-  Backbone.VanillaJsObjects.View = Backbone.View.extend({
+  var PropertyView = Backbone.View.extend({
     template: _.template([
       '<% if(property()) { %>',
         '<span class="property">',
@@ -66,46 +62,24 @@
 
     initialize: function() {
       if(this.options.hasOwnProperty('inspect')) {
-        var inspect = this.options.inspect;
-        if(getType(inspect) === 'object') {
-          this.collection = new Backbone.VanillaJsObjects.Object();
-          for(var property in inspect) {
-            this.collection.add({ property: property, value: inspect[property] });
-          }
-        } else if(getType(inspect) === 'array') {
-          var collection = this.collection = new Backbone.VanillaJsObjects.Array();
-          _.each(inspect, function(item) {
-            collection.add({ value: item });
-          });
-        } else {
-          this.model = new Backbone.VanillaJsObjects.Property({
-            value: inspect
-          });
-        }
+        this.model = new Backbone.VanillaJsObjects.Property({
+          value: this.options.inspect
+        });
       }
     },
 
     render: function() {
-      if(this.collection) {
-        var el = this.$el.empty();
-        this.collection.each(function(model) {
-          el.append(new Backbone.VanillaJsObjects.View({
-            model: model
-          }).render().el);
-        });
-      } else {
-        this.$el.html(this.template(this));
-        if(this.expandable()) {
-          var self = this;
-          //TODO that's not optimal
-          var cb = function() {
-            self.toggle.apply(self, arguments);
-          };
-          this.$el.on('click', '> .property', cb);
-          this.$el.on('click', '> .value', cb);
-          this.$el.addClass('expandable');
-          this.$el.append('<ul class="backbone-vanilla-js-object" style="display: none">');
-        }
+      this.$el.html(this.template(this));
+      if(this.expandable()) {
+        var self = this;
+        //TODO that's not optimal
+        var cb = function() {
+          self.toggle.apply(self, arguments);
+        };
+        this.$el.on('click', '> .property', cb);
+        this.$el.on('click', '> .value', cb);
+        this.$el.addClass('expandable');
+        this.$el.append('<ul class="" style="display: none">');
       }
       return this;
     },
@@ -140,7 +114,7 @@
         ul.empty();
       } else {
         ul.show();
-        new Backbone.VanillaJsObjects.View({
+        new PropertyView({
           el: ul,
           inspect: this.model.get('value')
         }).render();
@@ -150,4 +124,49 @@
     }
 
   });
+
+  var ObjectView = Backbone.View.extend({
+
+    tagName: 'ul',
+    className: 'backbone-vanilla-js-object',
+
+    initialize: function() {
+      if(this.options.hasOwnProperty('inspect')) {
+        var inspect = this.options.inspect;
+        if(getType(inspect) === 'object') {
+          this.collection = new Collection();
+          for(var property in inspect) {
+            this.collection.add({ property: property, value: inspect[property] });
+          }
+        } else if(getType(inspect) === 'array') {
+          var collection = this.collection = new Collection();
+          _.each(inspect, function(item) {
+            collection.add({ value: item });
+          });
+        }
+      }
+    },
+
+    render: function() {
+      var el = this.$el.empty();
+      this.collection.each(function(model) {
+        // TODO complete reference for testing purposes, need to find a better way!
+        el.append(new Backbone.VanillaJsObjects.Views.Property({
+          model: model
+        }).render().el);
+      });
+      return this;
+    }
+  });
+
+  return {
+    Views: {
+      Object: ObjectView,
+      Property: PropertyView
+    },
+    Property: Property,
+    Object: Collection,
+    Array: Collection,
+    getType: getType
+  };
 })();

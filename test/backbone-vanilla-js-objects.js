@@ -19,16 +19,154 @@ describe('Backbone.VanillaJsObjects', function() {
     expect(bvo.getType(false)).toBe('boolean');
     expect(bvo.getType(null)).toBe('null');
     expect(bvo.getType(undefined)).toBe('undefined');
+    expect(bvo.getType(function(){})).toBe('function');
     expect(bvo.getType({})).toBe('object');
     expect(bvo.getType([])).toBe('array');
   });
 
-  describe('View', function() {
+  describe('Views.Property', function() {
     var View = null;
     var view = null;
 
     beforeEach(function() {
-      View = bvo.View;
+      View = bvo.Views.Property;
+    });
+
+    it('defines the class', function() {
+      expect(View).toBeDefined();
+    });
+
+    describe('simple types', function() {
+      simples.forEach(function(simple) {
+        it('(' + simple + ')', function() {
+          view = new View({
+            inspect: simple
+          });
+          expect(view.model).toBeDefined();
+          expect(view.model).toEqual(jasmine.any(bvo.Property));
+          expect(view.model.property()).not.toBeDefined();
+          expect(view.model.get('value')).toBe(simple);
+        });
+      });
+    });
+
+    describe('Backbone', function() {
+      it('can be given a Collection', function() {
+        var collection = new Backbone.Collection();
+        view = new View({ collection: collection });
+        expect(view.collection).toBe(collection);
+      });
+
+      it('can be given a Model', function() {
+        var model = new Backbone.Model();
+        view = new View({ model: model });
+        expect(view.model).toBe(model);
+      });
+    });
+
+    describe('rendering', function() {
+      var View = null;
+      var Property = null;
+      var view = null;
+
+      beforeEach(function() {
+        View = bvo.Views.Property;
+        Property = bvo.Property;
+      });
+
+      describe('Model', function() {
+        var model = null;
+
+        beforeEach(function() {
+          model = new Property({ property: 'foo', value: 'bar' });
+        });
+
+        it('displays property and value', function() {
+          view = new View({ model: model }).render();
+          var el = view.$el,
+            property = el.find('.property'),
+            value = el.find('.value');
+
+          expect(el).toBe('li');
+          // expect(el).toHaveText('foo: "bar"');
+
+          expect(property).toHaveText(/foo/);
+          expect(value).toHaveText(/bar/);
+          expect(value).toHaveClass('value-string');
+
+        });
+
+        it('can be used without a property', function() {
+          model.set('property', undefined);
+          view = new View({ model: model }).render();
+          expect(view.$el).not.toContain('.property');
+        });
+
+        it('is not expandable', function() {
+          view = new View({ model: model }).render();
+          expect(view.$el).not.toHaveClass('expandable');
+        });
+
+      });
+
+      describe('expandable', function() {
+
+        it('is expandable', function() {
+          view = new View({
+            model: new bvo.Property({ property: 'foo', value: object })
+          });
+          expect(view.expandable()).toBe(true);
+          var el = view.render().$el;
+          expect(el).toHaveClass('expandable');
+          expect(el).toContain('ul');
+          var ul = el.find('ul');
+          expect(ul).toBeEmpty();
+          expect(ul).toBeHidden();
+
+          view = new View({
+            model: new bvo.Property({ property: 'foo', value: array })
+          });
+          expect(view.expandable()).toBe(true);
+          el = view.render().$el;
+          expect(el).toHaveClass('expandable');
+          expect(el).toContain('ul');
+          ul = el.find('ul');
+          expect(ul).toBeEmpty();
+          expect(ul).toBeHidden();
+
+        });
+
+        // it('expands', function() {
+        //   var eventSpy;
+        //   // View = bvo.View.extend({
+        //   //   initialize: function() {
+        //   //     eventSpy = spyOn(this, 'expand').andCallThrough();
+        //   //     bvo.View.prototype.initialize.apply(this, arguments);
+        //   //   }
+        //   // });
+        //   view = new View({
+        //     model: new bvo.Property({ property: 'foo', value: object })
+        //   }).render();
+
+        //   eventSpy = spyOn(view, 'expand').andCallThrough();
+        //   expect(eventSpy).not.toHaveBeenCalled();
+
+        //   view.$el.click();
+        //   expect(eventSpy).toHaveBeenCalled();
+
+
+        // });
+
+      });
+    });
+  });
+
+  describe('Views.Object', function() {
+    var View = null;
+    var view = null;
+
+    beforeEach(function() {
+      View = bvo.Views.Object;
     });
 
     it('defines the class', function() {
@@ -91,84 +229,13 @@ describe('Backbone.VanillaJsObjects', function() {
 
     });
 
-    describe('simple types', function() {
-      simples.forEach(function(simple) {
-        it('(' + simple + ')', function() {
-          view = new View({
-            inspect: simple
-          });
-          expect(view.model).toBeDefined();
-          expect(view.model).toEqual(jasmine.any(bvo.Property));
-          expect(view.model.property()).not.toBeDefined();
-          expect(view.model.get('value')).toBe(simple);
-        });
-      });
-    });
-
-    describe('Backbone', function() {
-      it('can be given a Collection', function() {
-        var collection = new Backbone.Collection();
-        view = new View({ collection: collection });
-        expect(view.collection).toBe(collection);
-      });
-
-      it('can be given a Model', function() {
-        var model = new Backbone.Model();
-        view = new View({ model: model });
-        expect(view.model).toBe(model);
-      });
-    });
-
-    describe('rendering', function() {
-      var View = null;
-      var Property = null;
-      var view = null;
-
-      beforeEach(function() {
-        View = bvo.View;
-        Property = bvo.Property;
-      });
-
-      describe('Model', function() {
-        var model = null;
-
-        beforeEach(function() {
-          model = new Property({ property: 'foo', value: 'bar' });
-        });
-
-        it('displays property and value', function() {
-          view = new View({ model: model }).render();
-          var el = view.$el,
-            property = el.find('.property'),
-            value = el.find('.value');
-
-          expect(el).toBe('li');
-          // expect(el).toHaveText('foo: "bar"');
-
-          expect(property).toHaveText(/foo/);
-          expect(value).toHaveText(/bar/);
-          expect(value).toHaveClass('value-string');
-
-        });
-
-        it('can be used without a property', function() {
-          model.set('property', undefined);
-          view = new View({ model: model }).render();
-          expect(view.$el).not.toContain('.property');
-        });
-
-        it('is not expandable', function() {
-          view = new View({ model: model }).render();
-          expect(view.$el).not.toHaveClass('expandable');
-        });
-
-      });
+    describe("rendering", function() {
 
       describe('Collection', function() {
 
         it('creates a view for each property', function() {
-          view = new View({ inspect: object });
-          spyOn(bvo, 'View').andReturn({
+          view = new bvo.Views.Object({ inspect: object });
+          spyOn(bvo.Views, 'Property').andReturn({
             render: function() {
               return {
                 el: ''
@@ -176,8 +243,8 @@ describe('Backbone.VanillaJsObjects', function() {
             }
           });
           view.render();
-          expect(bvo.View).toHaveBeenCalled();
-          expect(bvo.View.callCount).toBe(8);
+          expect(bvo.Views.Property).toHaveBeenCalled();
+          expect(bvo.Views.Property.callCount).toBe(8);
         });
 
         it('Object', function() {
@@ -196,71 +263,22 @@ describe('Backbone.VanillaJsObjects', function() {
 
       });
 
-      describe('expandable', function() {
+      // it('is not expandable', function() {
+      //   view = new View({ inspect: object });
+      //   expect(view.expandable()).toBe(false);
+      //   expect(view.render().$el).not.toHaveClass('expandable');
 
-        it('is not expandable', function() {
-          view = new View({ inspect: object });
-          expect(view.expandable()).toBe(false);
-          expect(view.render().$el).not.toHaveClass('expandable');
+      //   view = new View({ inspect: array });
+      //   expect(view.expandable()).toBe(false);
+      //   expect(view.render().$el).not.toHaveClass('expandable');
 
-          view = new View({ inspect: array });
-          expect(view.expandable()).toBe(false);
-          expect(view.render().$el).not.toHaveClass('expandable');
+      //   view = new View({
+      //     model: new bvo.Property({ property: 'foo', value: 'bar' })
+      //   });
+      //   expect(view.expandable()).toBe(false);
+      //   expect(view.render().$el).not.toHaveClass('expandable');
+      // });
 
-          view = new View({
-            model: new bvo.Property({ property: 'foo', value: 'bar' })
-          });
-          expect(view.expandable()).toBe(false);
-          expect(view.render().$el).not.toHaveClass('expandable');
-        });
-
-        it('is expandable', function() {
-          view = new View({
-            model: new bvo.Property({ property: 'foo', value: object })
-          });
-          expect(view.expandable()).toBe(true);
-          var el = view.render().$el;
-          expect(el).toHaveClass('expandable');
-          expect(el).toContain('ul');
-          var ul = el.find('ul');
-          expect(ul).toBeEmpty();
-          expect(ul).toBeHidden();
-
-          view = new View({
-            model: new bvo.Property({ property: 'foo', value: array })
-          });
-          expect(view.expandable()).toBe(true);
-          el = view.render().$el;
-          expect(el).toHaveClass('expandable');
-          expect(el).toContain('ul');
-          ul = el.find('ul');
-          expect(ul).toBeEmpty();
-          expect(ul).toBeHidden();
-
-        });
-
-        // it('expands', function() {
-        //   var eventSpy;
-        //   // View = bvo.View.extend({
-        //   //   initialize: function() {
-        //   //     eventSpy = spyOn(this, 'expand').andCallThrough();
-        //   //     bvo.View.prototype.initialize.apply(this, arguments);
-        //   //   }
-        //   // });
-        //   view = new View({
-        //     model: new bvo.Property({ property: 'foo', value: object })
-        //   }).render();
-
-        //   eventSpy = spyOn(view, 'expand').andCallThrough();
-        //   expect(eventSpy).not.toHaveBeenCalled();
-
-        //   view.$el.click();
-        //   expect(eventSpy).toHaveBeenCalled();
-
-
-        // });
-
-      });
     });
   });
 

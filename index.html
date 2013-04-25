@@ -9,34 +9,33 @@
   <script src="backbone-vanilla-js-objects.js"></script>
 </head>
 <body>
-  <ul id="example-1" class="backbone-vanilla-js-object"></ul>
-  <ul id="example-2" class="backbone-vanilla-js-object"></ul>
-  <ul id="example-3" class="backbone-vanilla-js-object"></ul>
-  <ul id="example-4" class="backbone-vanilla-js-object"></ul>
-  <ul id="example-5" class="backbone-vanilla-js-object"></ul>
+  <div id="example-1" class="backbone-vanilla-js-object"></div>
+  <div id="example-2" class="backbone-vanilla-js-object"></div>
+  <div id="example-3" class="backbone-vanilla-js-object"></div>
+  <div id="example-4" class="backbone-vanilla-js-object"></div>
+  <div id="example-5" class="backbone-vanilla-js-object"></div>
   
   <script>
-    var simples = [1, 'foo', true, false, null, undefined],
-      object = {a: 1, b: 'foo', c: true, d: false, e: null, f: undefined, g: { foo: 'bar' }, h: simples},
-      array = [1, 'foo', true, false, null, undefined, {foo: 'bar'}, simples];
-
     $(function() {
-      var View = Backbone.VanillaJsObjects.View;
+      var View = Backbone.VanillaJsObjects.Views.Object;
       
-      new View({ 
-        inspect: object,
-        el: $('#example-1')
-      }).render()
+      $('#example-1').append(
+        new View({
+          inspect: {
+            foo: 'bar',
+            size: 1,
+            isAwesome: true,
+            array: [
+              'text',
+              123,
+              {
+                I: 'Am an Object'
+              }
+            ],
+          }
+        }).render().el
+      );
 
-
-      new View({
-        model: new Backbone.VanillaJsObjects.Property({
-          property: 'window',
-          value: window
-        }),
-        el: $('#example-5')
-      }).render();
-      
     });
   </script>
 </body>
