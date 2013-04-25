@@ -50,8 +50,12 @@ li.backbone-vanilla-js-object:not(:last-child):after {
   color: rgb(196, 26, 22);
 }
 
-.backbone-vanilla-js-object .value-string:before, .backbone-vanilla-js-object .value-string:after {
-  content: "\"";
+.backbone-vanilla-js-object .value-string:before {
+  content: open-quote;
+}
+
+.backbone-vanilla-js-object .value-string:after {
+  content: close-quote;
 }
 
 .backbone-vanilla-js-object .value-number {
