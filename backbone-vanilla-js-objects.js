@@ -32,8 +32,6 @@
         return 'Object';
       } else if(getType(value) === 'array') {
         return 'Array';
-      } else if(getType(value) === 'string') {
-        return '"' + value + '"';
       } else {
         return '' + value;
       }
@@ -53,20 +51,18 @@
   });
 
   Backbone.VanillaJsObjects.View = Backbone.View.extend({
-    tagName: 'li',
     template: _.template([
       '<% if(property()) { %>',
         '<span class="property">',
           '<%= property() %>',
-          '<span class="colon">: </span>',
+          // '<span class="colon">: </span>',
         '</span>',
       '<% } %>',
-      '<span class="value"><%= value() %></span>'
+      '<span class="value value-<%= type() %>"><%= value() %></span>'
     ].join('')),
 
-    events: {
-      'click .expandable': 'expand'
-    },
+    tagName: 'li',
+    className: 'backbone-vanilla-js-object',
 
     initialize: function() {
       if(this.options.hasOwnProperty('inspect')) {
@@ -100,9 +96,15 @@
       } else {
         this.$el.html(this.template(this));
         if(this.expandable()) {
-          // this.$el.on('click', this.expand);
+          var self = this;
+          //TODO that's not optimal
+          var cb = function() {
+            self.toggle.apply(self, arguments);
+          };
+          this.$el.on('click', '> .property', cb);
+          this.$el.on('click', '> .value', cb);
           this.$el.addClass('expandable');
-          this.$el.append('<ul style="display: none">');
+          this.$el.append('<ul class="backbone-vanilla-js-object" style="display: none">');
         }
       }
       return this;
@@ -129,8 +131,22 @@
       }
     },
 
-    expand: function() {
-      console.log('expand', this, arguments);
+    expanded: false,
+
+    toggle: function() {
+      var ul = this.$el.find('ul');
+      if(this.expanded) {
+        ul.hide();
+        ul.empty();
+      } else {
+        ul.show();
+        new Backbone.VanillaJsObjects.View({
+          el: ul,
+          inspect: this.model.get('value')
+        }).render();
+      }
+      this.expanded = ! this.expanded;
+      this.$el.toggleClass('expanded', this.expanded);
     }
 
   });

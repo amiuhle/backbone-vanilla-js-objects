@@ -2,17 +2,18 @@
 <html>
 <head>
   <title>Backbone Vanilla JavaScript Objects</title>
+  <link rel="stylesheet" type="text/css" href="backbone-vanilla-js-objects.css">
   <script src="components/jquery/jquery.js"></script>
   <script src="components/underscore/underscore.js"></script>
   <script src="components/backbone/backbone.js"></script>
   <script src="backbone-vanilla-js-objects.js"></script>
 </head>
 <body>
-  <ul id="example-1"></ul>
-  <ul id="example-2"></ul>
-  <ul id="example-3"></ul>
-  <ul id="example-4"></ul>
-  <ul id="example-5"></ul>
+  <ul id="example-1" class="backbone-vanilla-js-object"></ul>
+  <ul id="example-2" class="backbone-vanilla-js-object"></ul>
+  <ul id="example-3" class="backbone-vanilla-js-object"></ul>
+  <ul id="example-4" class="backbone-vanilla-js-object"></ul>
+  <ul id="example-5" class="backbone-vanilla-js-object"></ul>
   
   <script>
     var simples = [1, 'foo', true, false, null, undefined],
@@ -21,9 +22,21 @@
 
     $(function() {
       var View = Backbone.VanillaJsObjects.View;
-      $('#example-1').html(
-        new View({ inspect: object}).render().el
-      );
+      
+      new View({ 
+        inspect: object,
+        el: $('#example-1')
+      }).render()
+
+
+      new View({
+        model: new Backbone.VanillaJsObjects.Property({
+          property: 'window',
+          value: window
+        }),
+        el: $('#example-5')
+      }).render();
+      
     });
   </script>
 </body>

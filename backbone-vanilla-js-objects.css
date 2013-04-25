@@ -1,0 +1,75 @@
+ul.backbone-vanilla-js-object {
+  font-family: monospace;
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 1em;
+}
+
+ul.backbone-vanilla-js-object li.backbone-vanilla-js-object {
+  padding-left: 0;
+  margin-left: 1em;
+}
+
+/*li.backbone-vanilla-js-object:hover {
+  background-color: #eee;
+}*/
+
+li.backbone-vanilla-js-object:before {
+  display: inline-block;
+  content: '';
+  width: 1em;
+}
+
+li.backbone-vanilla-js-object.expandable:before, li.backbone-vanilla-js-object.expandable>.value {
+  cursor: pointer;
+}
+
+li.backbone-vanilla-js-object.expandable:before {
+  content: '+';
+}
+
+li.backbone-vanilla-js-object.expandable.expanded:before {
+  content: '-';
+}
+
+li.backbone-vanilla-js-object:not(:last-child):after {
+  display: inline;
+  content: ',';
+}
+
+.backbone-vanilla-js-object .property {
+  color: rgb(136, 19, 145);
+}
+
+.backbone-vanilla-js-object .property:after {
+  color: black;
+  content: ': ';
+}
+
+.backbone-vanilla-js-object .value-string {
+  color: rgb(196, 26, 22);
+}
+
+.backbone-vanilla-js-object .value-string:before, .backbone-vanilla-js-object .value-string:after {
+  content: "\"";
+}
+
+.backbone-vanilla-js-object .value-number {
+  color: rgb(28, 0, 207);
+}
+
+.value-object + ul.backbone-vanilla-js-object:before {
+  content: '{';
+}
+
+.value-object + ul.backbone-vanilla-js-object:after {
+  content: '}';
+}
+
+.value-array + ul.backbone-vanilla-js-object:before {
+  content: '[';
+}
+
+.value-array + ul.backbone-vanilla-js-object:after {
+  content: ']';
+}
