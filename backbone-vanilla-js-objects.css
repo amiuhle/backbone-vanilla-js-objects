@@ -5,34 +5,35 @@ ul.backbone-vanilla-js-object {
   margin-left: 1em;
 }
 
-ul.backbone-vanilla-js-object li.backbone-vanilla-js-object {
+ul.backbone-vanilla-js-object li.backbone-vanilla-js-property {
+  list-style-type: none;
   padding-left: 0;
   margin-left: 1em;
 }
 
-/*li.backbone-vanilla-js-object:hover {
+/*li.backbone-vanilla-js-property:hover {
   background-color: #eee;
 }*/
 
-li.backbone-vanilla-js-object:before {
+li.backbone-vanilla-js-property:before {
   display: inline-block;
   content: '';
   width: 1em;
 }
 
-li.backbone-vanilla-js-object.expandable:before, li.backbone-vanilla-js-object.expandable>.value {
+li.backbone-vanilla-js-property.expandable:before, li.backbone-vanilla-js-property.expandable>.value {
   cursor: pointer;
 }
 
-li.backbone-vanilla-js-object.expandable:before {
+li.backbone-vanilla-js-property.expandable:before {
   content: '+';
 }
 
-li.backbone-vanilla-js-object.expandable.expanded:before {
+li.backbone-vanilla-js-property.expandable.expanded:before {
   content: '-';
 }
 
-li.backbone-vanilla-js-object:not(:last-child):after {
+li.backbone-vanilla-js-property:not(:last-child):after {
   display: inline;
   content: ',';
 }
@@ -62,18 +63,18 @@ li.backbone-vanilla-js-object:not(:last-child):after {
   color: rgb(28, 0, 207);
 }
 
-.value-object + ul.backbone-vanilla-js-object:before {
+ul.backbone-vanilla-js-object:before {
   content: '{';
 }
 
-.value-object + ul.backbone-vanilla-js-object:after {
+ul.backbone-vanilla-js-object:after {
   content: '}';
 }
 
-.value-array + ul.backbone-vanilla-js-object:before {
+ul.backbone-vanilla-js-array:before {
   content: '[';
 }
 
-.value-array + ul.backbone-vanilla-js-object:after {
+ul.backbone-vanilla-js-array:after {
   content: ']';
 }

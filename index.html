@@ -22,9 +22,11 @@
       $('#example-1').append(
         new View({
           inspect: {
-            foo: 'bar',
-            size: 1,
-            isAwesome: true,
+            string: 'bar',
+            number: 1,
+            boolean: true,
+            null: null,
+            undefined: undefined,
             array: [
               'text',
               123,
@@ -32,6 +34,10 @@
                 I: 'Am an Object'
               }
             ],
+            object: {
+              aLot: Infinity,
+              nan: NaN
+            }
           }
         }).render().el
       );

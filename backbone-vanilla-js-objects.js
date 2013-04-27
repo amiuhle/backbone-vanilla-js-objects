@@ -47,6 +47,26 @@ Backbone.VanillaJsObjects = (function (undefined) {
   });
 
   var PropertyView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'backbone-vanilla-js-property',
+
+    ChildClass: undefined,
+    childView: null,
+
+    initialize: function() {
+      if(this.options.hasOwnProperty('inspect')) {
+        this.model = new Backbone.VanillaJsObjects.Property({
+          value: this.options.inspect
+        });
+      }
+
+      if(this.type() === 'object' || this.type() === 'function') {
+        this.ChildClass = ObjectView;
+      } else if(this.type() === 'array') {
+        this.ChildClass = ArrayView;
+      }
+    },
+
     template: _.template([
       '<% if(property()) { %>',
         '<span class="property">',
@@ -56,17 +76,6 @@ Backbone.VanillaJsObjects = (function (undefined) {
       '<% } %>',
       '<span class="value value-<%= type() %>"><%= value() %></span>'
     ].join('')),
-
-    tagName: 'li',
-    className: 'backbone-vanilla-js-object',
-
-    initialize: function() {
-      if(this.options.hasOwnProperty('inspect')) {
-        this.model = new Backbone.VanillaJsObjects.Property({
-          value: this.options.inspect
-        });
-      }
-    },
 
     render: function() {
       this.$el.html(this.template(this));
@@ -79,7 +88,6 @@ Backbone.VanillaJsObjects = (function (undefined) {
         this.$el.on('click', '> .property', cb);
         this.$el.on('click', '> .value', cb);
         this.$el.addClass('expandable');
-        this.$el.append('<ul class="" style="display: none">');
       }
       return this;
     },
@@ -98,54 +106,25 @@ Backbone.VanillaJsObjects = (function (undefined) {
     },
 
     expandable: function() {
-      if(this.collection) {
-        return false;
-      } else {
-        return this.property() && (this.type() === 'object' || this.type() === 'array');
-      }
+      return !!this.ChildClass;
     },
 
-    expanded: false,
-
     toggle: function() {
-      var ul = this.$el.find('ul');
-      if(this.expanded) {
-        ul.hide();
-        ul.empty();
+      if(this.childView) {
+        this.childView.remove();
+        this.childView = null;
       } else {
-        ul.show();
-        new PropertyView({
-          el: ul,
+        this.childView = new this.ChildClass({
           inspect: this.model.get('value')
-        }).render();
+        });
+        this.$el.append(this.childView.render().el);
       }
-      this.expanded = ! this.expanded;
-      this.$el.toggleClass('expanded', this.expanded);
     }
 
   });
 
-  var ObjectView = Backbone.View.extend({
-
+  var CollectionView = Backbone.View.extend({
     tagName: 'ul',
-    className: 'backbone-vanilla-js-object',
-
-    initialize: function() {
-      if(this.options.hasOwnProperty('inspect')) {
-        var inspect = this.options.inspect;
-        if(getType(inspect) === 'object') {
-          this.collection = new Collection();
-          for(var property in inspect) {
-            this.collection.add({ property: property, value: inspect[property] });
-          }
-        } else if(getType(inspect) === 'array') {
-          var collection = this.collection = new Collection();
-          _.each(inspect, function(item) {
-            collection.add({ value: item });
-          });
-        }
-      }
-    },
 
     render: function() {
       var el = this.$el.empty();
@@ -159,9 +138,45 @@ Backbone.VanillaJsObjects = (function (undefined) {
     }
   });
 
+  var ObjectView = CollectionView.extend({
+
+    tagName: 'ul',
+    className: 'backbone-vanilla-js-object',
+
+    initialize: function() {
+      if(this.options.hasOwnProperty('inspect')) {
+        var inspect = this.options.inspect;
+        if(getType(inspect) === 'object') {
+          this.collection = new Collection();
+          for(var property in inspect) {
+            this.collection.add({ property: property, value: inspect[property] });
+          }
+        }
+      }
+    }
+  });
+
+  var ArrayView = CollectionView.extend({
+    tagName: 'ul',
+    className: 'backbone-vanilla-js-array',
+
+    initialize: function() {
+      if(this.options.hasOwnProperty('inspect')) {
+        var inspect = this.options.inspect;
+        if(getType(inspect) === 'array') {
+          var collection = this.collection = new Collection();
+          _.each(inspect, function(item) {
+            collection.add({ value: item });
+          });
+        }
+      }
+    }
+  });
+
   return {
     Views: {
       Object: ObjectView,
+      Array: ArrayView,
       Property: PropertyView
     },
     Property: Property,
