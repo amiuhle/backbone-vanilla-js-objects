@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Backbone: Vanilla JS Objects by amiuhle</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Backbone: Vanilla JS Objects</h1>
+        <p>Display plain JavaScript Objects with Backbone.js</p>
+
+        <p class="view"><a href="https://github.com/amiuhle/backbone-vanilla-js-objects">View the Project on GitHub <small>amiuhle/backbone-vanilla-js-objects</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/amiuhle/backbone-vanilla-js-objects/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/amiuhle/backbone-vanilla-js-objects/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/amiuhle/backbone-vanilla-js-objects">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Installation</h2>
+
+<pre><code>$ bower install backbone-vanilla-js-objects --save-dev
+</code></pre>
+
+<h2>Examples</h2>
+
+<p>All examples use the following variable assignments:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ObjectView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">VanillaJsObjects</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nb">Object</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">ArrayView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">VanillaJsObjects</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nb">Array</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">PropertyView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">VanillaJsObjects</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">Property</span><span class="p">;</span>
+</pre></div>
+
+<h3>Object</h3>
+
+<p>Create a <code>Backbone.VanillaJsObjects.Views.Object</code> and give it any JavaScript object that should be displayed:</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#example-1'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span>
+  <span class="k">new</span> <span class="nx">ObjectView</span><span class="p">({</span>
+    <span class="nx">inspect</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">string</span><span class="o">:</span> <span class="s1">'bar'</span><span class="p">,</span>
+      <span class="nx">number</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="kr">boolean</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="kc">null</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="kc">undefined</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+      <span class="kd">function</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{},</span>
+      <span class="nx">array</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s1">'text'</span><span class="p">,</span>
+        <span class="mi">123</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="nx">I</span><span class="o">:</span> <span class="s1">'Am an Object'</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nx">object</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">aLot</span><span class="o">:</span> <span class="kc">Infinity</span><span class="p">,</span>
+        <span class="nx">nan</span><span class="o">:</span> <span class="kc">NaN</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}).</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
+<span class="p">);</span>
+</pre></div>
+
+<h3>Arrays</h3>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#example-2'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span>
+  <span class="k">new</span> <span class="nx">ArrayView</span><span class="p">({</span>
+    <span class="nx">inspect</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s1">'text'</span><span class="p">,</span>
+      <span class="mf">1.1</span><span class="p">,</span>
+      <span class="kc">false</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="nx">foo</span><span class="o">:</span> <span class="s1">'bar'</span>
+      <span class="p">},</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">close</span>
+    <span class="p">]</span>
+  <span class="p">}).</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
+<span class="p">);</span>
+</pre></div>
+
+<h3>Top-level properties</h3>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#example-3'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span>
+  <span class="k">new</span> <span class="nx">PropertyView</span><span class="p">({</span>
+    <span class="nx">tagName</span><span class="o">:</span> <span class="s1">'div'</span><span class="p">,</span>
+    <span class="nx">model</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">VanillaJsObjects</span><span class="p">.</span><span class="nx">Property</span><span class="p">({</span>
+      <span class="nx">property</span><span class="o">:</span> <span class="s1">'underscore'</span><span class="p">,</span>
+      <span class="nx">value</span><span class="o">:</span> <span class="nx">_</span>
+    <span class="p">})</span>
+  <span class="p">}).</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
+<span class="p">);</span>
+</pre></div>
+
+<h3>Styling</h3>
+
+<p>The JavaScript is the same as in example 1.</p>
+
+<div class="highlight"><pre><span class="nf">#example-4</span> <span class="p">{</span>
+  <span class="k">background-color</span><span class="o">:</span> <span class="m">#272822</span><span class="p">;</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#F8F8F2</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">font-family</span><span class="o">:</span> <span class="n">FontAwesome</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property.expandable</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s2">"\f0da"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property.expandable.expanded</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s2">"\f0d7"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.property</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#F92672</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.property</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s1">':'</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.property</span><span class="nd">:after</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#F8F8F2</span><span class="p">;</span>
+  <span class="k">content</span><span class="o">:</span> <span class="s1">' =&gt; '</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-string</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#E6DB74</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-string</span><span class="nd">:before</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="k">open-quote</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-string</span><span class="nd">:after</span> <span class="p">{</span>
+  <span class="k">content</span><span class="o">:</span> <span class="k">close-quote</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-number</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#AE81FF</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-null</span><span class="o">,</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-boolean</span><span class="o">,</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-undefined</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#AE81FF</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-function</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#A6E22E</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-property</span> <span class="o">&gt;</span> <span class="nc">.value-object</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#CFCFC2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-object</span><span class="nd">:before</span><span class="o">,</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-object</span><span class="nd">:after</span><span class="o">,</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-array</span><span class="nd">:before</span><span class="o">,</span>
+<span class="nf">#example-4</span> <span class="nc">.backbone-vanilla-js-array</span><span class="nd">:after</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#75715E</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>The window you're viewing:</h3>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#example-5'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span>
+  <span class="k">new</span> <span class="nx">ObjectView</span><span class="p">({</span>
+    <span class="nx">inspect</span><span class="o">:</span> <span class="nb">window</span>
+  <span class="p">}).</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
+<span class="p">);</span>
+</pre></div>
+
+<p><a href="http://www.example.com">Link</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/amiuhle">amiuhle</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-40491426-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
