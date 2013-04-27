@@ -115,11 +115,13 @@ Backbone.VanillaJsObjects = (function (undefined) {
       if(this.childView) {
         this.childView.remove();
         this.childView = null;
+        this.$el.toggleClass('expanded', false);
       } else {
         this.childView = new this.ChildClass({
           inspect: this.model.get('value')
         });
         this.$el.append(this.childView.render().el);
+        this.$el.toggleClass('expanded', true);
       }
     }
 

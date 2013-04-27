@@ -2,8 +2,84 @@
 <html>
 <head>
   <title>Backbone Vanilla JavaScript Objects</title>
-  <link rel="stylesheet" type="text/css" href="backbone-vanilla-js-objects.css">
+  <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/css/font-awesome.css">
+  <link rel="stylesheet" href="backbone-vanilla-js-objects.css">
   <style>
+    .example {
+      border: 1px solid #ccc;
+      margin: 1em;
+      padding: 1em;
+
+      max-height: 200px;
+      overflow: auto;
+    }
+
+    #example-4 {
+      background-color: #272822;
+      color: #F8F8F2;
+    }
+
+    #example-4 .backbone-vanilla-js-property:before {
+      font-family: FontAwesome;
+    }
+
+    #example-4 .backbone-vanilla-js-property.expandable:before {
+      content: "\f0da";
+    }
+
+    #example-4 .backbone-vanilla-js-property.expandable.expanded:before {
+      content: "\f0d7";
+    }
+
+    #example-4 .backbone-vanilla-js-property > .property {
+      color: #F92672;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .property:before {
+      content: ':';
+    }
+
+    #example-4 .backbone-vanilla-js-property > .property:after {
+      color: #F8F8F2;
+      content: ' => ';
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-string {
+      color: #E6DB74;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-string:before {
+      content: open-quote;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-string:after {
+      content: close-quote;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-number {
+      color: #AE81FF;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-null,
+    #example-4 .backbone-vanilla-js-property > .value-boolean,
+    #example-4 .backbone-vanilla-js-property > .value-undefined {
+      color: #AE81FF;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-function {
+      color: #A6E22E;
+    }
+
+    #example-4 .backbone-vanilla-js-property > .value-object {
+      color: #CFCFC2;
+    }
+
+    #example-4 .backbone-vanilla-js-object:before,
+    #example-4 .backbone-vanilla-js-object:after,
+    #example-4 .backbone-vanilla-js-array:before,
+    #example-4 .backbone-vanilla-js-array:after {
+      color: #75715E;
+    }
   </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="components/underscore/underscore.js"></script>
@@ -66,9 +142,33 @@
         new PropertyView({
           tagName: 'div',
           model: new Backbone.VanillaJsObjects.Property({
-            property: 'me',
+            property: 'underscore',
             value: _
           })
+        }).render().el
+      );
+
+      $('#example-4').append(
+        new ObjectView({
+          inspect: {
+            string: 'bar',
+            number: 1,
+            boolean: true,
+            null: null,
+            undefined: undefined,
+            function: function() {},
+            array: [
+              'text',
+              123,
+              {
+                I: 'Am an Object'
+              }
+            ],
+            object: {
+              aLot: Infinity,
+              nan: NaN
+            }
+          }
         }).render().el
       );
 

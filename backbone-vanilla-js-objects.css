@@ -12,15 +12,15 @@ ul.backbone-vanilla-js-object, ul.vanilla-js-array, li.backbone-vanilla-js-prope
   margin-left: 1em;
 }
 
-ul.backbone-vanilla-js-array > li.backbone-vanilla-js-property {
+/*ul.backbone-vanilla-js-array > li.backbone-vanilla-js-property {
 
-}
+}*/
 
 /*li.backbone-vanilla-js-property:hover {
   background-color: #eee;
 }*/
 
-li.backbone-vanilla-js-property:before {
+.backbone-vanilla-js-property:before {
   display: inline-block;
   content: '';
   width: 1em;
@@ -53,7 +53,7 @@ li.backbone-vanilla-js-property:before {
 }
 
 .backbone-vanilla-js-property > .value-string {
-  color: rgb(196, 26, 22);
+  color: #E6DB74;
 }
 
 .backbone-vanilla-js-property > .value-string:before {
@@ -68,18 +68,18 @@ li.backbone-vanilla-js-property:before {
   color: rgb(28, 0, 207);
 }
 
-ul.backbone-vanilla-js-object:before {
+.backbone-vanilla-js-object:before {
   content: '{';
 }
 
-ul.backbone-vanilla-js-object:after {
+.backbone-vanilla-js-object:after {
   content: '}';
 }
 
-ul.backbone-vanilla-js-array:before {
+.backbone-vanilla-js-array:before {
   content: '[';
 }
 
-ul.backbone-vanilla-js-array:after {
+.backbone-vanilla-js-array:after {
   content: ']';
 }
