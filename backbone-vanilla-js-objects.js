@@ -29,9 +29,11 @@ Backbone.VanillaJsObjects = (function (undefined) {
     value: function() {
       var value = this.get('value');
       if(getType(value) === 'object') {
-        return 'Object';
+        return value.constructor.name;
       } else if(getType(value) === 'array') {
         return 'Array';
+      } else if(getType(value) === 'function') {
+        return value.toString().split('\n')[0];
       } else {
         return '' + value;
       }
@@ -146,7 +148,7 @@ Backbone.VanillaJsObjects = (function (undefined) {
     initialize: function() {
       if(this.options.hasOwnProperty('inspect')) {
         var inspect = this.options.inspect;
-        if(getType(inspect) === 'object') {
+        if(getType(inspect) === 'object' || getType(inspect) === 'function') {
           this.collection = new Collection();
           for(var property in inspect) {
             this.collection.add({ property: property, value: inspect[property] });
