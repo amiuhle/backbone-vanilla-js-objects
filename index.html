@@ -3,30 +3,36 @@
 <head>
   <title>Backbone Vanilla JavaScript Objects</title>
   <link rel="stylesheet" type="text/css" href="backbone-vanilla-js-objects.css">
+  <style>
+  </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="components/underscore/underscore.js"></script>
   <script src="components/backbone/backbone.js"></script>
   <script src="backbone-vanilla-js-objects.js"></script>
 </head>
 <body>
-  <div id="example-1" class="backbone-vanilla-js-object"></div>
-  <div id="example-2" class="backbone-vanilla-js-object"></div>
-  <div id="example-3" class="backbone-vanilla-js-object"></div>
-  <div id="example-4" class="backbone-vanilla-js-object"></div>
-  <div id="example-5" class="backbone-vanilla-js-object"></div>
+  <div id="example-1" class="example"></div>
+  <div id="example-2" class="example"></div>
+  <div id="example-3" class="example"></div>
+  <div id="example-4" class="example"></div>
+  <div id="example-5" class="example"></div>
   
   <script>
     $(function() {
-      var View = Backbone.VanillaJsObjects.Views.Object;
+      var ObjectView = Backbone.VanillaJsObjects.Views.Object;
+      var ArrayView = Backbone.VanillaJsObjects.Views.Array;
+      var PropertyView = Backbone.VanillaJsObjects.Views.Property;
+
       
       $('#example-1').append(
-        new View({
+        new ObjectView({
           inspect: {
             string: 'bar',
             number: 1,
             boolean: true,
             null: null,
             undefined: undefined,
+            function: function() {},
             array: [
               'text',
               123,
@@ -39,6 +45,36 @@
               nan: NaN
             }
           }
+        }).render().el
+      );
+
+      $('#example-2').append(
+        new ArrayView({
+          inspect: [
+            'text',
+            1.1,
+            false,
+            {
+              foo: 'bar'
+            },
+            window.close
+          ]
+        }).render().el
+      );
+
+      $('#example-3').append(
+        new PropertyView({
+          tagName: 'div',
+          model: new Backbone.VanillaJsObjects.Property({
+            property: 'me',
+            value: _
+          })
+        }).render().el
+      );
+
+      $('#example-5').append(
+        new ObjectView({
+          inspect: window
         }).render().el
       );
 

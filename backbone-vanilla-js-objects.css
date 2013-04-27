@@ -1,14 +1,19 @@
-ul.backbone-vanilla-js-object {
-  font-family: monospace;
+ul.backbone-vanilla-js-object, ul.vanilla-js-array, li.backbone-vanilla-js-property {
   list-style-type: none;
-  padding-left: 0;
+}
+
+.backbone-vanilla-js-object, .backbone-vanilla-js-array, .backbone-vanilla-js-property {
+  font-family: monospace;
+  padding: 0;
+  margin: 0;
+}
+
+.backbone-vanilla-js-object > .backbone-vanilla-js-property, .backbone-vanilla-js-array > .backbone-vanilla-js-property {
   margin-left: 1em;
 }
 
-ul.backbone-vanilla-js-object li.backbone-vanilla-js-property {
-  list-style-type: none;
-  padding-left: 0;
-  margin-left: 1em;
+ul.backbone-vanilla-js-array > li.backbone-vanilla-js-property {
+
 }
 
 /*li.backbone-vanilla-js-property:hover {
@@ -21,45 +26,45 @@ li.backbone-vanilla-js-property:before {
   width: 1em;
 }
 
-li.backbone-vanilla-js-property.expandable:before, li.backbone-vanilla-js-property.expandable>.value {
+.backbone-vanilla-js-property.expandable>.property, .backbone-vanilla-js-property.expandable>.value {
   cursor: pointer;
 }
 
-li.backbone-vanilla-js-property.expandable:before {
+.backbone-vanilla-js-property.expandable:before {
   content: '+';
 }
 
-li.backbone-vanilla-js-property.expandable.expanded:before {
+.backbone-vanilla-js-property.expandable.expanded:before {
   content: '-';
 }
 
-li.backbone-vanilla-js-property:not(:last-child):after {
+.backbone-vanilla-js-property:not(:last-child):after {
   display: inline;
   content: ',';
 }
 
-.backbone-vanilla-js-object .property {
+.backbone-vanilla-js-property > .property {
   color: rgb(136, 19, 145);
 }
 
-.backbone-vanilla-js-object .property:after {
+.backbone-vanilla-js-property > .property:after {
   color: black;
   content: ': ';
 }
 
-.backbone-vanilla-js-object .value-string {
+.backbone-vanilla-js-property > .value-string {
   color: rgb(196, 26, 22);
 }
 
-.backbone-vanilla-js-object .value-string:before {
+.backbone-vanilla-js-property > .value-string:before {
   content: open-quote;
 }
 
-.backbone-vanilla-js-object .value-string:after {
+.backbone-vanilla-js-property > .value-string:after {
   content: close-quote;
 }
 
-.backbone-vanilla-js-object .value-number {
+.backbone-vanilla-js-property > .value-number {
   color: rgb(28, 0, 207);
 }
 
