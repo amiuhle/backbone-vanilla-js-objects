@@ -1,14 +1,13 @@
 {
   "name": "backbone-vanilla-js-objects",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": [
     "backbone-vanilla-js-objects.js",
     "backbone-vanilla-js-objects.css"
   ],
   "dependencies": {
-    "jquery": "~2.0.0",
-    "underscore": "~1.4.4",
-    "backbone": "~1.0.0"
+    "backbone": "~1.0.0",
+    "underscore": "~1.4.4"
   },
   "ignore": [
     "**/.*",
@@ -16,6 +15,7 @@
     "components"
   ],
   "devDependencies": {
+    "jquery": "~2.0.0",
     "jasmine-jquery": "~1.5.0"
   }
 }
