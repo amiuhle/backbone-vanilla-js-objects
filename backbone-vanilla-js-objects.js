@@ -28,7 +28,9 @@ Backbone.VanillaJsObjects = (function (undefined) {
 
     value: function() {
       var value = this.get('value');
-      if(getType(value) === 'object') {
+      if(value && typeof value.inspect === 'function') {
+        return value.inspect();
+      } else if(getType(value) === 'object') {
         return value.constructor.name;
       } else if(getType(value) === 'array') {
         return 'Array';
@@ -153,7 +155,10 @@ Backbone.VanillaJsObjects = (function (undefined) {
         if(getType(inspect) === 'object' || getType(inspect) === 'function') {
           this.collection = new Collection();
           for(var property in inspect) {
-            this.collection.add({ property: property, value: inspect[property] });
+            if(inspect.hasOwnProperty(property)) {
+              this.collection.add({ property: property, value: inspect[property] });
+            }
+            // TODO options.showInherited === true: Add with class .inherited
           }
         }
       }

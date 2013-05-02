@@ -380,5 +380,25 @@ describe('Backbone.VanillaJsObjects', function() {
       });
 
     });
+  
+    it('delegates to "inspect" method', function() {
+      var Inspectable = function Inspectable() {
+        this.a = 'a';
+        this.b = 'b';
+      };
+
+      Inspectable.prototype.inspect = function() {
+        return 'foo!';
+      };
+
+      var model = new Property({
+        value: new Inspectable()
+      });
+
+      expect(model.value()).toEqual('foo!');
+
+
+    });
+  
   });
 });
