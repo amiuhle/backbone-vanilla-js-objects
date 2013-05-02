@@ -71,15 +71,33 @@ Backbone.VanillaJsObjects = (function (undefined) {
       }
     },
 
-    template: _.template([
-      '<% if(property()) { %>',
-        '<span class="property">',
-          '<%= property() %>',
-          // '<span class="colon">: </span>',
-        '</span>',
-      '<% } %>',
-      '<span class="value value-<%= type() %>"><%= value() %></span>'
-    ].join('')),
+    // template: _.template([
+    //   '<% if(property()) { %>',
+    //     '<span class="property">',
+    //       '<%= property() %>',
+    //       // '<span class="colon">: </span>',
+    //     '</span>',
+    //   '<% } %>',
+    //   '<span class="value value-<%= type() %>"><%= value() %></span>'
+    // ].join('')),
+
+    template: function(obj){
+      var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+      with(obj||{}){
+      __p+='';
+       if(property()) { 
+      __p+='<span class="property">'+
+      ((__t=( property() ))==null?'':__t)+
+      '</span>';
+       } 
+      __p+='<span class="value value-'+
+      ((__t=( type() ))==null?'':__t)+
+      '">'+
+      ((__t=( value() ))==null?'':__t)+
+      '</span>';
+      }
+      return __p;
+      },
 
     render: function() {
       this.$el.html(this.template(this));
