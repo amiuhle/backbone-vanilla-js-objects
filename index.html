@@ -99,6 +99,14 @@
       var ArrayView = Backbone.VanillaJsObjects.Views.Array;
       var PropertyView = Backbone.VanillaJsObjects.Views.Property;
 
+      var Inspectable = function Inspectable() {
+        this.a = 'a';
+        this.b = 'b';
+      };
+
+      Inspectable.prototype.inspect = function() {
+        return 'foo!';
+      };
       
       $('#example-1').append(
         new ObjectView({
@@ -119,7 +127,8 @@
             object: {
               aLot: Infinity,
               nan: NaN
-            }
+            },
+            inspectable: new Inspectable()
           }
         }).render().el
       );
