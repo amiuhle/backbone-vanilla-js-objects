@@ -53,7 +53,7 @@ ul.backbone-vanilla-js-object, ul.vanilla-js-array, li.backbone-vanilla-js-prope
 }
 
 .backbone-vanilla-js-property > .value-string {
-  color: #E6DB74;
+  color: rgb(196, 26, 22);
 }
 
 .backbone-vanilla-js-property > .value-string:before {
